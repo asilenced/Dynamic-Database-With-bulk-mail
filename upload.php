@@ -4,7 +4,7 @@
 
    $result = 0;
    
-   $target_path = $destination_path . basename( $_FILES['myfile']['name']);
+   $target_path = $destination_path ."upload_file/".basename( $_FILES['myfile']['name']);
 
    if(@move_uploaded_file($_FILES['myfile']['tmp_name'], $target_path)) {
       $result = 1;

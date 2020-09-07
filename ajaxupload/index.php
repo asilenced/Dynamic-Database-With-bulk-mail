@@ -31,7 +31,7 @@ function stopUpload(success){
 </head>
 
 <body>
-       <div id="container">
+       <div id="Uploader_container">
             <div id="header"><div id="header_left"></div>
             <div id="header_main">Max's AJAX File Uploader</div><div id="header_right"></div></div>
             <div id="content">
@@ -49,7 +49,7 @@ function stopUpload(success){
                      <iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
                  </form>
              </div>
-             <div id="footer"><a href="http://www.ajaxf1.com" target="_blank">Powered by AJAX F1</a></div>
+             <div id="footer"><a href="http://www.paxzonebd.com" target="_blank">Powered by paxzone</a></div>
          </div>
                  
 </body>   

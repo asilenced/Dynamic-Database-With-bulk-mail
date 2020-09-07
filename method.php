@@ -10,7 +10,7 @@ function test_input($data) {
   return $data;
 }
 
-function smtpmailer($to, $from, $from_name, $subject, $body)
+function smtpmailer($to, $from, $from_name, $subject, $body, $file)
     {
         $error = "i";
         $mail = new PHPMailer();
@@ -25,9 +25,9 @@ function smtpmailer($to, $from, $from_name, $subject, $body)
         
         // $path = $_FILES['filename']['tmp_name'];
         // $mail->AddAttachment($path);
-        
-        // $mail->AddAttachment("Course Module.pdf");
-        
+        if($file){
+            $mail->AddAttachment("upload_file/".$file);
+        }
         $mail->IsHTML(true);
         $mail->From="info@ecofarmsbd.com";
         $mail->FromName=$from_name;
@@ -48,18 +48,22 @@ function smtpmailer($to, $from, $from_name, $subject, $body)
         }
     }
 
-    function sent_mail($to, $from, $name, $subj, $final_message1){
+function sent_mail($to, $from, $name, $subj, $final_message1){
         $error = "i";
         if (filter_var($to, FILTER_VALIDATE_EMAIL)) {
-            $error=smtpmailer($to, $from, $name, $subj, $final_message1);
+            $error=smtpmailer($to, $from, $name, $subj, $final_message1, $file);
         }
         return $error;
     }
     $ms = "Error!";
     $from = "autoreply@ecofarmsbd.com";
     $sub = "Brochure of Paxzone Electronics";
+    $file = false;
     if(!empty($_POST['sub'])){
         $sub = $_POST['sub'];
+    }
+    if(!empty($_POST['fileName'])){
+        $file = $_POST['fileName'];
     }
     $st = $_POST['start_no'];
     $ed = $_POST['end_no'];
@@ -70,9 +74,9 @@ function smtpmailer($to, $from, $from_name, $subject, $body)
         $result = mysqli_query($connect, $sql);
         if (mysqli_num_rows($result) > 0){
             while($row = mysqli_fetch_assoc($result)){
-                $to = $row['EmailAddress'];
+                $to = $row['E-mailAddress'];
                 // $final_message1 = sprintf($crtm, $row["name"]);
-                $sm=sent_mail($to, $from, "Eco Farms", $sub, $msg);
+                $sm=sent_mail($to, $from, "Paxzone Electronics", $sub, $msg, $file);
                 $sts = "Failed";
                 if($sm == 'd'){
                     $sts = "Done";

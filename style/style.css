@@ -1,4 +1,4 @@
-#container {
+#Uploader_container {
 	margin: auto;
 	width: 400px;
 	border-top-width: 0px;
@@ -15,32 +15,32 @@
 	border-left-color: #000033;
 	background-color: #FFFFFF;
 }
-#container #header #header_left {
+#Uploader_container #header #header_left {
 	float: left;
 	background-image: url(images/header_left.gif);
 	background-repeat: no-repeat;
 	height: 42px;
 	width: 45px;
 }
-#container #header #header_right {
+#Uploader_container #header #header_right {
 	background-image: url(images/header_right.gif);
 	background-repeat: no-repeat;
 	height: 42px;
 	width: 6px;
 	float: right;
 }
-body {
+/* body {
 	padding-top: 30px;
 	background-color: #CCCCCC;
-}
-#container #content {
+} */
+#Uploader_container #content {
 	padding: 5px;
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	font-weight: normal;
 	color: #666666;
 }
-#container #footer {
+#Uploader_container #footer {
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #999999;
@@ -59,14 +59,14 @@ body {
 	padding-bottom: 5px;
 	padding-left: 5px;
 }
-#container #footer a {
+#Uploader_container #footer a {
 	color: #999999;
 	text-decoration: none;
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-size: 10px;
 }
 
-#container #header #header_main {
+#Uploader_container #header #header_main {
 	float: left;
 	padding: 5px;
 	font-family: Geneva, Arial, Helvetica, sans-serif;
@@ -114,7 +114,7 @@ form {
 
 
 
-#container #header {
+#Uploader_container #header {
 	padding: 0px;
 	margin-top: 0px;
 	margin-right: 0px;

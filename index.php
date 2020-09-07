@@ -3,18 +3,20 @@
      <head>  
           <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>            
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>            
           <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
           <script src="https://cdn.jsdelivr.net/gh/jeffreydwalter/ColReorderWithResize@9ce30c640e394282c9e0df5787d54e5887bc8ecc/ColReorderWithResize.js"></script>
           <script src="Text-Editor/editor.js"></script>
           <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/datatables.min.js"></script>
-           <title>Live Table Data Edit</title>  
-           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-           <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"> 
-           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-           <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/datatables.min.css"/>
-           <link href="Text-Editor/editor.css" type="text/css" rel="stylesheet"/>
+          
+          <title>Live Table Data Edit</title>  
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+          <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"> 
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+          <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/datatables.min.css"/>
+          <link href="Text-Editor/editor.css" type="text/css" rel="stylesheet"/>
           <link href="style.css" type="text/css" rel="stylesheet">
+          <link href="style/style.css" rel="stylesheet" type="text/css" /> 
       </head> 
       <style>
       .p-5{
@@ -43,7 +45,7 @@
 
                          <label for="input-b2" class="col-sm-4 col-form-label">Attached file:</label>
                               <div class="col-sm-8">
-                              <input id="input-b2" name="input-b2" type="file" class="form-control file" data-show-preview="false">
+                              <input id="fu" name="input-b2" type="button" class="form-control file" data-show-preview="false" value="Show file uploader">
                               </div>
                               <div class="input-group col-sm-12">
                               </div>
@@ -77,6 +79,29 @@
                          </div>
                     </div>
                </form>
+               <div id="Uploader_container">
+                    <div id="header"><div id="header_left"></div>
+                    <div id="header_main">File Uploader</div><div id="header_right"></div></div>
+                    <div id="content">
+                         <form action="upload.php" method="post" enctype="multipart/form-data" target="upload_target" onsubmit="startUpload();" >
+                              <p id="f1_upload_process">Loading...<br/><img src="loader.gif" /><br/></p>
+                              <p id="f1_upload_form" align="center"><br/>
+                                   <label>File:  
+                                        <input name="myfile" type="file" size="30" />
+                                   </label>
+                                   <label>
+                                   <input type="submit" name="submitBtn" class="sbtn" value="Upload" />
+                                   </label>
+                              </p>
+                              
+                              <iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
+                         </form>
+                    </div>
+                    <div id="footer"><a href="http://www.paxzonebd.com" target="_blank">Powered by paxzone</a></div>
+               </div>
+
+
+
                <div id="et" class="row text_editor">
                     <h2 class="demo-text">Mail body Editor</h2>
                     <div class="container">
@@ -112,8 +137,33 @@
      var mail_text = '';
      var t_name = '';  
      var table = '';
+     var fileName = '';
      var editor = $("#placeHolder").Editor();
+     function startUpload(){
+          document.getElementById('f1_upload_process').style.visibility = 'visible';
+          document.getElementById('f1_upload_form').style.visibility = 'hidden';
+          return true;
+     }
+
+     function stopUpload(success){
+          var result = '';
+          if (success == 1){
+          result = '<span class="msg">The file was uploaded successfully!<\/span><br/><br/>';
+          }
+          else {
+          result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
+          }
+          document.getElementById('f1_upload_process').style.visibility = 'hidden';
+          document.getElementById('f1_upload_form').innerHTML = result + '<label>File: <input name="myfile" type="file" size="30" /><\/label><label><input type="submit" name="submitBtn" class="sbtn" value="Upload" /><\/label>';
+          document.getElementById('f1_upload_form').style.visibility = 'visible';      
+          return true;   
+     }
+
+
      $(document).ready(function(){ 
+          $('input[type="file"]').change(function(e){
+            fileName = e.target.files[0].name;
+        });
           function fetch_data()  
           {   
                if(t_name==''){
@@ -311,7 +361,7 @@
                     $.ajax({  
                          url:"method.php",  
                          method:"POST",  
-                         data:{t_name:t_name, start_no:start_no,end_no:end_no,mail_text:mail_text,sub:sub},  
+                         data:{t_name:t_name, start_no:start_no,end_no:end_no,mail_text:mail_text,sub:sub,fileName:fileName},  
                          // data:{t_name:t_name, start_no:start_no,end_no:end_no,mail_text:mail_text,sub:sub, file_data:file_data},  
                          dataType:"text",  
                          success:function(data){  
@@ -331,6 +381,7 @@
                });    
      });  
      $("#et").hide();
+     $("#Uploader_container").hide();
      $("#save_temp").click(function(){
           mail_text = $("#placeHolder").Editor("getText");
           alert(mail_text);
@@ -342,6 +393,15 @@
           }
           else{
                $("#eb").val("Show mail editor");
+          }
+     });
+     $("#fu").click(function(){
+          $("#Uploader_container").toggle();
+          if($("#fu").val()=='Show file uploader'){
+               $("#fu").val("Hide file uploader");
+          }
+          else{
+               $("#fu").val("Show file uploader");
           }
      });
  </script>
