@@ -1,0 +1,33 @@
+/* #mytable{
+    overflow-y: scroll;
+} */
+/* #live_data {
+    max-height: 500px;
+    margin: 0 auto;
+    overflow: scroll;
+    } */
+#mytable th, td {
+white-space: nowrap;
+}
+/* table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+} */
+/* table.dataTable tbody tr.selected {
+    background-color: #ff84d0 !important;
+  } */
+/* .focusedRow
+  {
+      font-weight: bold;
+      text-shadow: 1px 1px 0px #EEE;
+      color: #111;   
+  } */
+  /* tr.row_selected td{background-color:red !important;} */
