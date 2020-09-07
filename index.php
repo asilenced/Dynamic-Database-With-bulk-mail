@@ -88,7 +88,7 @@
                          <input type="button" value="Save" id="save_temp">
                     </div>
                </div>
-               <div class="row col-md-12">
+               <div class="col-md-12">
                     <input type="submit" id="refresh" value="Refresh Table">  
                     <select class="browser-default custom-select float-right" id="t_name">
                          <option value=0 disabled selected>Select database</option>
@@ -329,7 +329,7 @@
      });  
      $("#et").hide();
      $("#save_temp").click(function(){
-          mail_text = $('.Editor-editor').html();
+          mail_text = $("#placeHolder").Editor("getText");
           alert("Mail body Saved!");
      });
      $("#eb").click(function(){
@@ -345,7 +345,4 @@
 		$("#mytable tbody tr").removeClass('row_selected');		
 		$(this).addClass('row_selected');
 	});
-
-
-
  </script>
