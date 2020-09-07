@@ -79,29 +79,32 @@
                          </div>
                     </div>
                </form>
-               <div id="Uploader_container">
-                    <div id="header"><div id="header_left"></div>
-                    <div id="header_main">File Uploader</div><div id="header_right"></div></div>
-                    <div id="content">
-                         <form action="upload.php" method="post" enctype="multipart/form-data" target="upload_target" onsubmit="startUpload();" >
-                              <p id="f1_upload_process">Loading...<br/><img src="loader.gif" /><br/></p>
-                              <p id="f1_upload_form" align="center"><br/>
-                                   <label>File:  
-                                        <input name="myfile" type="file" size="30" />
-                                   </label>
-                                   <label>
-                                   <input type="submit" name="submitBtn" class="sbtn" value="Upload" />
-                                   </label>
-                              </p>
-                              
-                              <iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
-                         </form>
+               <div class="row" id="file_uploader">
+                    <div id="Uploader_container" class="col-md-6">
+                         <div id="header"><div id="header_left"></div>
+                         <div id="header_main">File Uploader</div><div id="header_right"></div></div>
+                         <div id="content">
+                              <form action="upload.php" method="post" enctype="multipart/form-data" target="upload_target" onsubmit="startUpload();" >
+                                   <p id="f1_upload_process">Loading...<br/><img src="loader.gif" /><br/></p>
+                                   <p id="f1_upload_form" align="center"><br/>
+                                        <label>File:  
+                                             <input name="myfile" type="file" size="30" />
+                                        </label>
+                                        <label>
+                                        <input type="submit" name="submitBtn" class="sbtn" value="Upload" />
+                                        </label>
+                                   </p>
+                                   
+                                   <iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
+                              </form>
+                         </div>
+                         <div id="footer"><a href="http://www.paxzonebd.com" target="_blank">Powered by paxzone</a></div>
+                    </div> 
+                    <div  id="file_list" class="col-md-6" >
+                         
                     </div>
-                    <div id="footer"><a href="http://www.paxzonebd.com" target="_blank">Powered by paxzone</a></div>
                </div>
-
-
-
+               
                <div id="et" class="row text_editor">
                     <h2 class="demo-text">Mail body Editor</h2>
                     <div class="container">
@@ -114,7 +117,6 @@
                          <input type="button" value="Save" id="save_temp">
                     </div>
                </div>
-               
                <div class="col-md-12">
                     <input type="submit" id="refresh" value="Refresh Table">  
                     <select class="browser-default custom-select float-right" id="t_name">
@@ -147,11 +149,12 @@
 
      function stopUpload(success){
           var result = '';
-          if (success == 1){
-          result = '<span class="msg">The file was uploaded successfully!<\/span><br/><br/>';
+          if (success == 0){
+          result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
           }
           else {
-          result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
+          // result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
+          result = '<span class="emsg">'+success+'<\/span><br/><br/>';
           }
           document.getElementById('f1_upload_process').style.visibility = 'hidden';
           document.getElementById('f1_upload_form').innerHTML = result + '<label>File: <input name="myfile" type="file" size="30" /><\/label><label><input type="submit" name="submitBtn" class="sbtn" value="Upload" /><\/label>';
@@ -381,7 +384,7 @@
                });    
      });  
      $("#et").hide();
-     $("#Uploader_container").hide();
+     $("#file_uploader").hide();
      $("#save_temp").click(function(){
           mail_text = $("#placeHolder").Editor("getText");
           alert(mail_text);
@@ -396,7 +399,7 @@
           }
      });
      $("#fu").click(function(){
-          $("#Uploader_container").toggle();
+          $("#file_uploader").toggle();
           if($("#fu").val()=='Show file uploader'){
                $("#fu").val("Hide file uploader");
           }

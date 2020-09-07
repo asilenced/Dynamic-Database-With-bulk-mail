@@ -1,18 +1,7 @@
 #Uploader_container {
 	margin: auto;
-	width: 400px;
-	border-top-width: 0px;
-	border-right-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: solid;
-	border-left-style: solid;
-	border-top-color: #000033;
-	border-right-color: #000033;
-	border-bottom-color: #000033;
-	border-left-color: #000033;
+	max-width: 400px;
+	border: 1px solid #000033;
 	background-color: #FFFFFF;
 }
 #Uploader_container #header #header_left {

@@ -10,7 +10,7 @@
  $output .= '  
       <thead>
           <tr>';  
- if(mysqli_num_rows($column_name) > 0 && mysqli_num_rows($result) > 0)  
+ if(mysqli_num_rows($result) > 0)  
  {  
       while($column = mysqli_fetch_array($column_name))  
       {  
@@ -80,4 +80,5 @@
  }
  echo $output;  
  ?>
+
 
