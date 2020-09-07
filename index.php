@@ -82,12 +82,14 @@
                     <div class="container">
                          <div class="row">
                               <div class="col-lg-12 nopadding">
-                                   <textarea id="txtEditor"></textarea> 
+                                   <!-- <textarea id="txtEditor"></textarea>  -->
+                                   <div id="placeHolder"> </div>
                               </div>
                          </div>
                          <input type="button" value="Save" id="save_temp">
                     </div>
                </div>
+               
                <div class="col-md-12">
                     <input type="submit" id="refresh" value="Refresh Table">  
                     <select class="browser-default custom-select float-right" id="t_name">
@@ -110,6 +112,7 @@
      var mail_text = '';
      var t_name = '';  
      var table = '';
+     var editor = $("#placeHolder").Editor();
      $(document).ready(function(){ 
           function fetch_data()  
           {   
@@ -129,7 +132,7 @@
                     }  
                });  
           }
-          $("#txtEditor").Editor(); 
+          // $("#txtEditor").Editor(); 
           $(document).on('click', '#btn_add', function(){
                if(t_name=='paxzone_email_data'){
                     var email = $('#EmailAddress').text();  
@@ -330,7 +333,7 @@
      $("#et").hide();
      $("#save_temp").click(function(){
           mail_text = $("#placeHolder").Editor("getText");
-          alert("Mail body Saved!");
+          alert(mail_text);
      });
      $("#eb").click(function(){
           $("#et").toggle();
@@ -341,8 +344,4 @@
                $("#eb").val("Show mail editor");
           }
      });
-     $("#mytable tbody tr").on('click',function(event) {
-		$("#mytable tbody tr").removeClass('row_selected');		
-		$(this).addClass('row_selected');
-	});
  </script>
