@@ -1,1 +1,1 @@
-# Dynamic database with bulk Miler
+# Dynamic database with bulk Mailer
