@@ -10,7 +10,7 @@ function test_input($data) {
   return $data;
 }
 
-function smtpmailer($to, $from, $from_name, $subject, $body, $file)
+function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file)
     {
         $error = "i";
         $mail = new PHPMailer();
@@ -23,12 +23,14 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $file)
         $mail->Username = 'sales@paxzonebd.com';
         $mail->Password = '368836'; 
         $mail->AddCC('salespaxzone@gmail.com');
-        $mail->AddAttachment("upload_file/Paxzone Brochure.pdf");
+        
         // $path = $_FILES['filename']['tmp_name'];
         // $mail->AddAttachment($path);
-        // if($file){
-        //     $mail->AddAttachment("upload_file/".$file);
-        // }
+        if(!empty($attached_file)){
+            foreach($attached_file as $fl){
+                $mail->AddAttachment("upload_file/".$fl);
+            }
+        }
         $mail->IsHTML(true);
         $mail->From='sales@paxzonebd.com';
         $mail->FromName=$from_name;
@@ -49,17 +51,17 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $file)
         }
     }
 
-function sent_mail($to, $from, $name, $subj, $final_message1, $file){
+function sent_mail($to, $from, $name, $subj, $final_message1, $files){
         $error = "i";
         if (filter_var($to, FILTER_VALIDATE_EMAIL)) {
-            $error=smtpmailer($to, $from, $name, $subj, $final_message1, $file);
+            $error=smtpmailer($to, $from, $name, $subj, $final_message1, $files);
         }
         return $error;
     }
     $ms = "Error!";
     $from = "sales@paxzonebd.com";
     $sub = "Paxzone Electronics";
-    $file = false;
+    $file = array();
     if(!empty($_POST['sub'])){
         $sub = $_POST['sub'];
     }
@@ -97,7 +99,7 @@ function sent_mail($to, $from, $name, $subj, $final_message1, $file){
                 }
                 $sql1 = "UPDATE `".$table."` SET `Status` = '".$sts."' WHERE `Serial No` = '".$row["Serial No"]."'";
                 if (mysqli_query($connect, $sql1)) {
-                    $ms="Data Updated!";
+                    $ms="Mail status Updated!";
                 } else {
                     $ms =  "Error updating record: " . mysqli_error($connect);
                 }

@@ -43,9 +43,10 @@
                     <div class="row">
                          <div class="form-group col-md-6">
 
-                         <label for="input-b2" class="col-sm-4 col-form-label">Attached file:</label>
+                         <label for="input-b2" class="col-sm-4 col-form-label" id="attached_file_label">Attached file:</label>
                               <div class="col-sm-8">
-                              <input id="fu" name="input-b2" type="button" class="form-control file" data-show-preview="false" value="Show file uploader">
+                              <textarea  id="file_names" class="form-control file" placeholder="Upload file to attached" readonly></textarea>
+                              
                               </div>
                               <div class="input-group col-sm-12">
                               </div>
@@ -59,23 +60,24 @@
                     </div>
 
                     <div class="row">
-                         <div class="form-group col-md-1">
-                         </div>
+                         
                          <div class="form-group col-sm-3">
                               <input type="button" class="btn btn-default col-sm-12" id="reset_btn"
                                              style="background-color: #56AA1C; color: white;" name="reset" value="Reset Status">
                          </div>
-                         <div class="form-group col-md-1">
-                         </div>
+                         
                          <div class="col-sm-3">
                               <input type="button" class="btn btn-default col-sm-12" id="sent_btn"
                                                        style="background-color: #56AA1C; color: white;" name="sent" value="Sent mail">
                          </div>
-                         <div class="form-group col-md-1">
-                         </div>
+                         
                          <div class="col-sm-3">
                               <input type="button" class="btn btn-default col-sm-12" id="eb"
                                                        style="background-color: #56AA1C; color: white;" name="eb" value="Show mail editor">
+                         </div>
+                         <div class="col-sm-3">
+                              <input type="button" class="btn btn-default col-sm-12" id="fu"
+                                                       style="background-color: #56AA1C; color: white;" name="eb" value="Show file uploader">
                          </div>
                     </div>
                </form>
@@ -86,6 +88,7 @@
                          <div id="content">
                               <form action="upload.php" method="post" enctype="multipart/form-data" target="upload_target" onsubmit="startUpload();" >
                                    <p id="f1_upload_process">Loading...<br/><img src="loader.gif" /><br/></p>
+                                   <p id="file_link"></p>
                                    <p id="f1_upload_form" align="center"><br/>
                                         <label>File:  
                                              <input name="myfile" type="file" size="30" />
@@ -139,11 +142,12 @@
      var mail_text = '';
      var t_name = '';  
      var table = '';
-     var fileName = '';
+     var fileName = [];
+     var fName = '';
      var editor = $("#placeHolder").Editor();
      function startUpload(){
-          document.getElementById('f1_upload_process').style.visibility = 'visible';
-          document.getElementById('f1_upload_form').style.visibility = 'hidden';
+          $('#f1_upload_process').show();
+          $('#f1_upload_form').hide();
           return true;
      }
 
@@ -156,16 +160,21 @@
           // result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
           result = '<span class="emsg">'+success+'<\/span><br/><br/>';
           }
-          document.getElementById('f1_upload_process').style.visibility = 'hidden';
-          document.getElementById('f1_upload_form').innerHTML = result + '<label>File: <input name="myfile" type="file" size="30" /><\/label><label><input type="submit" name="submitBtn" class="sbtn" value="Upload" /><\/label>';
-          document.getElementById('f1_upload_form').style.visibility = 'visible';      
+          $('#f1_upload_process').hide();
+          // document.getElementById('f1_upload_form').innerHTML = result + '<label>File: <input name="myfile" type="file" size="30" /><\/label><label><input type="submit" name="submitBtn" class="sbtn" value="Upload" /><\/label>';
+          $('#f1_upload_form').show(); 
+          $('#file_link').html(success);    
           return true;   
      }
 
 
      $(document).ready(function(){ 
           $('input[type="file"]').change(function(e){
-            fileName = e.target.files[0].name;
+               fName = e.target.files[0].name;
+               fileName.push(fName);
+               $('#file_names').val(fileName.join(",\n"));
+               $('#attached_file_label').html("Remove file");
+         
         });
           function fetch_data()  
           {   
@@ -406,5 +415,17 @@
           else{
                $("#fu").val("Show file uploader");
           }
+     });
+     $("#attached_file_label").click(function(){
+          if(fileName.length>0){
+               fileName.length = 0;
+               $('#file_names').val("Upload file to attached");
+               $('#attached_file_label').html("Attached file");
+               $('input[type="file"]').val("");
+          }
+          else{
+               return false;
+          }
+          
      });
  </script>
