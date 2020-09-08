@@ -49,7 +49,7 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $file)
         }
     }
 
-function sent_mail($to, $from, $name, $subj, $final_message1){
+function sent_mail($to, $from, $name, $subj, $final_message1, $file){
         $error = "i";
         if (filter_var($to, FILTER_VALIDATE_EMAIL)) {
             $error=smtpmailer($to, $from, $name, $subj, $final_message1, $file);
