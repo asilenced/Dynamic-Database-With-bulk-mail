@@ -20,8 +20,9 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $file)
         $mail->SMTPSecure = 'ssl'; 
         $mail->Host = 'sg2plcpnl0221.prod.sin2.secureserver.net';
         $mail->Port = 465;  
-        $mail->Username = 'autoreply@ecofarmsbd.com';
-        $mail->Password = 'bV3%;;YNoJi9'; 
+        $mail->Username = 'sales@paxzonebd.com';
+        $mail->Password = '368836'; 
+        $mail->AddCC('salespaxzone@gmail.com');
         
         // $path = $_FILES['filename']['tmp_name'];
         // $mail->AddAttachment($path);
@@ -29,10 +30,10 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $file)
             $mail->AddAttachment("upload_file/".$file);
         }
         $mail->IsHTML(true);
-        $mail->From="info@ecofarmsbd.com";
+        $mail->From='sales@paxzonebd.com';
         $mail->FromName=$from_name;
         $mail->Sender=$from;
-        $mail->AddReplyTo("info@ecofarmsbd.com", $from_name);
+        $mail->AddReplyTo('sales@paxzonebd.com', $from_name);
         $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->AddAddress($to);
@@ -56,8 +57,8 @@ function sent_mail($to, $from, $name, $subj, $final_message1){
         return $error;
     }
     $ms = "Error!";
-    $from = "autoreply@ecofarmsbd.com";
-    $sub = "Brochure of Paxzone Electronics";
+    $from = "sales@paxzonebd.com";
+    $sub = "Paxzone Electronics";
     $file = false;
     if(!empty($_POST['sub'])){
         $sub = $_POST['sub'];
@@ -74,7 +75,7 @@ function sent_mail($to, $from, $name, $subj, $final_message1){
         $result = mysqli_query($connect, $sql);
         if (mysqli_num_rows($result) > 0){
             while($row = mysqli_fetch_assoc($result)){
-                $to = $row['E-mailAddress'];
+                $to = $row['EmailAddress'];
                 // $final_message1 = sprintf($crtm, $row["name"]);
                 $sm=sent_mail($to, $from, "Paxzone Electronics", $sub, $msg, $file);
                 $sts = "Failed";
@@ -85,9 +86,7 @@ function sent_mail($to, $from, $name, $subj, $final_message1){
                 }
                 if(isset($row['EmailAddress_IT'])){
                     $to = $row['EmailAddress_IT'];
-                    // $final_message1 = sprintf($crtm, $row["name"]);
-                    $sm=sent_mail($to, $from, "Eco Farms", $sub, $msg);
-                    
+                    $sm=sent_mail($to, $from, "Paxzone Electronics", $sub, $msg, $file);
                     if($sm == 'd'){
                         $sts .= ", Done";
                     }else if($sm == 'i'){
@@ -108,6 +107,5 @@ function sent_mail($to, $from, $name, $subj, $final_message1){
         }
     }
     echo $ms;
-
 ?>
 
