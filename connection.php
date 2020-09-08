@@ -1,8 +1,8 @@
 <?php
     
     $servername = "localhost";
-    $username = "root";
-    $password = "";
+    $username = "Ecofarms";
+    $password = "CtiUG6GnLCejsA@";
     $db = "EF_Applicant";
     
     // Create connection
