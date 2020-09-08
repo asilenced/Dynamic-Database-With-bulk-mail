@@ -387,7 +387,7 @@
      $("#file_uploader").hide();
      $("#save_temp").click(function(){
           mail_text = $("#placeHolder").Editor("getText");
-          alert(mail_text);
+          alert("Mail body saved!");
      });
      $("#eb").click(function(){
           $("#et").toggle();
