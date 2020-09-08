@@ -103,8 +103,18 @@
                          </div>
                          <div id="footer"><a href="http://www.paxzonebd.com" target="_blank">Powered by paxzone</a></div>
                     </div> 
-                    <div  id="file_list" class="col-md-6" >
-                         
+                    <div class="col-md-6" >
+                         <table id="file_list" class="stripe row-border order-column" style="width:100%">
+                              <thead>
+                                   <tr>
+                                        <th wide="">File Name</th>
+                                        <th>Link</th>
+                                        <th>Atcion</th>
+                                   </tr>
+                                   <tbody>
+                                   </tbody>
+                              </thead>
+                         </table>
                     </div>
                </div>
                
@@ -191,6 +201,16 @@
                     data:{t_name:t_name},  
                     success:function(data){  
                          $('#mytable').html(data); 
+                    }  
+               });  
+          }
+          function fetch_list()  
+          {   
+               $.ajax({  
+                    url:"upload_file_handler.php",  
+                    method:"POST",
+                    success:function(data){  
+                         $('#file_list tbody').html(data); 
                     }  
                });  
           }
