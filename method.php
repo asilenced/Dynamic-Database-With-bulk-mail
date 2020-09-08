@@ -23,12 +23,12 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $file)
         $mail->Username = 'sales@paxzonebd.com';
         $mail->Password = '368836'; 
         $mail->AddCC('salespaxzone@gmail.com');
-        
+        $mail->AddAttachment("upload_file/Paxzone Brochure.pdf");
         // $path = $_FILES['filename']['tmp_name'];
         // $mail->AddAttachment($path);
-        if($file){
-            $mail->AddAttachment("upload_file/".$file);
-        }
+        // if($file){
+        //     $mail->AddAttachment("upload_file/".$file);
+        // }
         $mail->IsHTML(true);
         $mail->From='sales@paxzonebd.com';
         $mail->FromName=$from_name;
