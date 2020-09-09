@@ -3,17 +3,18 @@
      <head>  
           <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>            
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>            
           <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/gh/jeffreydwalter/ColReorderWithResize@9ce30c640e394282c9e0df5787d54e5887bc8ecc/ColReorderWithResize.js"></script>
+          <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+          <script  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
           <script src="Text-Editor/editor.js"></script>
-          <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/datatables.min.js"></script>
-          
+          <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/datatables.min.js"></script> 
           <title>Live Table Data Edit</title>  
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
           <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"> 
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
           <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/datatables.min.css"/>
+          <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.bootstrap.min.css"/>
           <link href="Text-Editor/editor.css" type="text/css" rel="stylesheet"/>
           <link href="style.css" type="text/css" rel="stylesheet">
           <link href="style/style.css" rel="stylesheet" type="text/css" /> 
@@ -104,12 +105,11 @@
                          <div id="footer"><a href="http://www.paxzonebd.com" target="_blank">Powered by paxzone</a></div>
                     </div> 
                     <div class="col-md-6" >
-                         <table id="file_list" class="stripe row-border order-column" style="width:100%">
+                         <table id="file_list" class="table table-striped table-bordered nowrap" style="width:100%">
                               <thead>
                                    <tr>
-                                        <th wide="">File Name</th>
-                                        <th>Link</th>
-                                        <th>Atcion</th>
+                                        <th width="80">File Name</th>
+                                        <th width="20">Atcion</th>
                                    </tr>
                                    <tbody>
                                    </tbody>
@@ -117,7 +117,9 @@
                          </table>
                     </div>
                </div>
-               
+               <div id="dialog">
+                    <p></p>
+               </div>
                <div id="et" class="row text_editor">
                     <h2 class="demo-text">Mail body Editor</h2>
                     <div class="container">
@@ -141,7 +143,7 @@
                <div id="live_data">
                     <h3 align="center">Claint Table</h3>
                     <div class="table-responsive"> 
-                         <table class="table table-bordered"  id="mytable" width="100%" cellspacing="0" cellpadding="0" data-page-length="10" data-order="[[ 0, &quot;asc&quot; ]]">
+                         <table class="table table-bordered"  id="mytable" width="100%" cellspacing="0" cellpadding="0" data-page-length="25" data-order="[[ 0, &quot;asc&quot; ]]">
                          </table>  
                     </div>
                </div>                       
@@ -176,15 +178,13 @@
           $('#file_link').html(success);    
           return true;   
      }
-
-
      $(document).ready(function(){ 
+          var table = $('#file_list').DataTable();
           $('input[type="file"]').change(function(e){
                fName = e.target.files[0].name;
                fileName.push(fName);
                $('#file_names').val(fileName.join(",\n"));
                $('#attached_file_label').html("Remove file");
-         
         });
           function fetch_data()  
           {   
@@ -214,6 +214,11 @@
                     }  
                });  
           }
+          fetch_list();
+
+          $('#dialog').dialog({
+                autoOpen: false,
+            });          
           // $("#txtEditor").Editor(); 
           $(document).on('click', '#btn_add', function(){
                if(t_name=='paxzone_email_data'){
@@ -447,5 +452,11 @@
                return false;
           }
           
+     });
+     $('.file_row').click(function(){
+               var f_name = $(this).data("id12"); 
+               var f_url = $(this).data("id13"); 
+               $( "#dialog p").html(f_url);
+               $( '#dialog' ).dialog( 'open' );
      });
  </script>

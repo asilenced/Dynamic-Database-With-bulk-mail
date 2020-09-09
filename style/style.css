@@ -83,20 +83,11 @@
 	margin-bottom: 0px;
 	margin-left: 20px;
 }
-button {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	font-weight: bold;
-	color: #FFFFFF;
-	height: 22px;
-	width: 82px;
-	background-image: url(images/button.gif);
-}
 #container #content #form1 legend {
 	padding: 5px;
 	margin: auto;
 }
-form {
+#content form {
 	margin: 10px 5px 0px 5px;
 }
 

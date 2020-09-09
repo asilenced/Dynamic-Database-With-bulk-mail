@@ -12,8 +12,7 @@
       {
           $output .= 
                '<tr>
-                     <td class="'.$row["File_name"].'" contenteditable>'.$row["File_name"].'</td>  
-                     <td class="'.$row["URL"].'" contenteditable>'.$row["URL"].'</td>  
+                     <td class="file_row" data-id12="'.$row["File_name"].'" data-id13="'.$row["URL"].'">'.$row["File_name"].'</td>   
                      <td><button type="button" name="delete_btn" data-id1="'.$row["No"].'" id="del_list" class="btn btn-xs btn-danger">x</button></td>  
                 </tr>';
           

@@ -2,6 +2,7 @@
     require "connection.php";  
    function path2url($file_path) {
       $file_path=str_replace('\\','/',$file_path);
+      $file_path=str_replace(' ', '%20',$file_path);
       $file_path=str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_path);
       $file_path='http://'.$_SERVER['HTTP_HOST'].$file_path;
       return $file_path;
@@ -21,7 +22,6 @@
       }
    }else{
          if(@move_uploaded_file($_FILES['myfile']['tmp_name'], $target_path)) {
-
             $result = path2url($target_path);
             $sql = "INSERT INTO `file_list`(`File_name`, `Path`, `URL`) VALUES ('".$file_name."','".$target_path."','".$result."')";
             if(mysqli_query($connect, $sql))  
@@ -30,8 +30,7 @@
                }
                else{
                   $result .= "<br>".mysqli_error($connect); 
-               }
-               
+               } 
          }
    }
 

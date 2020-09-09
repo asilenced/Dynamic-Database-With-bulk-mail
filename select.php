@@ -61,17 +61,8 @@
          'scrollY': 500, 
          'scrollX': true, 
          dom: 'Bfrtip',
-         columnDefs: [
-             {
-                 targets: 0,
-                 className: 'noVis'
-             }
-         ],
          buttons: [
-             {
-                 extend: 'colvis',
-                 columns: ':not(.noVis)'
-             }
+                'pageLength','colvis'
          ]}); 
          $('#mytable tbody').on( 'click', 'tr', function () { if ( $(this).hasClass('selected') ) { $(this).removeClass('selected'); } else { table.$('tr.selected').removeClass('selected'); $(this).addClass('selected'); } } ); $('#button').click( function () { table.row('.selected').remove().draw( false ); } ); } );</script>";
  }
