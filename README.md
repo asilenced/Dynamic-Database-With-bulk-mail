@@ -1,4 +1,5 @@
 # Dynamic database with bulk Mailer
+<<<<<<< HEAD
 This is bulk mailer with dynamic email database.<br>
 Here you can edit the databse with live table. <br>
 Also you can send mail to your databse address. <br>
@@ -11,3 +12,7 @@ And can attached file.<br><br>
 <img src="https://github.com/SAProdhan/Dynamic-Database-With-bulk-mail/blob/test_1/mail%20editor1.png" width="800px" height="auto" alt=""><br><br><br><br><br>
 ### File Uploader
 <img src="https://github.com/SAProdhan/Dynamic-Database-With-bulk-mail/blob/test_1/mail%20editor2.png" width="800px" height="auto" alt="">
+=======
+
+## Please check the test_1 branch for more update and detailes
+>>>>>>> c03587b36ebaa8644c67f5f2114246094fdcde82
