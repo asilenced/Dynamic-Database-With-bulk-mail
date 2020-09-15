@@ -25,7 +25,14 @@
           f_url += $(this).data("id13");
           $( "#dialog p").html(f_url);
           $( "#dialog" ).dialog({ title: f_name });
-          $( "#dialog" ).dialog( "open" ).css("background","lightsteelblue");;
+          $( "#dialog" ).dialog( "open" ).css("background","lightsteelblue");
+          if(confirm("Add "+f_name+" to attached file?")){
+               if(!fileName.includes(f_name)){
+                    fileName.push(f_name);
+               }
+          $("#file_names").val(fileName.join(",\n"));
+          $("#attached_file_label").html("Remove file");     
+          }
 });
       </script>';
  }  
