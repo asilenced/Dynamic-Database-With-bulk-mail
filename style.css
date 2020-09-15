@@ -1,3 +1,9 @@
+#file_list_div{
+    overflow: scroll;
+}
+
+
+
 /* #mytable{
     overflow-y: scroll;
 } */
@@ -6,9 +12,9 @@
     margin: 0 auto;
     overflow: scroll;
     } */
-#mytable th, td {
+/* #mytable th, td {
 white-space: nowrap;
-}
+} */
 /* table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,
 table.dataTable thead .sorting_asc:after,

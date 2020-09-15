@@ -14,7 +14,8 @@
    $result = 0;
    $file_name = basename( $_FILES['myfile']['name']);
    $target_path = $destination_path ."upload_file/".basename( $_FILES['myfile']['name']);
-   $sql = "SELECT * FROM `file_list` WHERE `Path`='".$target_path."'";
+   $path = "upload_file/".basename( $_FILES['myfile']['name']);
+   $sql = "SELECT * FROM `file_list` WHERE `Path`='".$path."'";
    $query = mysqli_query($connect, $sql); 
    if(mysqli_num_rows($query) > 0){
       while($row = mysqli_fetch_array($query)){
@@ -23,7 +24,7 @@
    }else{
          if(@move_uploaded_file($_FILES['myfile']['tmp_name'], $target_path)) {
             $result = path2url($target_path);
-            $sql = "INSERT INTO `file_list`(`File_name`, `Path`, `URL`) VALUES ('".$file_name."','".$target_path."','".$result."')";
+            $sql = "INSERT INTO `file_list`(`File_name`, `Path`, `URL`) VALUES ('".$file_name."','".$path."','".$result."')";
             if(mysqli_query($connect, $sql))  
                {  
                   $result .= "<br>File uploaded and saved!"; 

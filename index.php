@@ -10,6 +10,7 @@
           <script src="Text-Editor/editor.js"></script>
           <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/datatables.min.js"></script> 
           <title>Live Table Data Edit</title>  
+          <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
           <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"> 
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -78,7 +79,7 @@
                          </div>
                          <div class="col-sm-3">
                               <input type="button" class="btn btn-default col-sm-12" id="fu"
-                                                       style="background-color: #56AA1C; color: white;" name="eb" value="Show file uploader">
+                                                       style="background-color: #56AA1C; color: white;" name="fu" value="Show file uploader">
                          </div>
                     </div>
                </form>
@@ -105,15 +106,16 @@
                          <div id="footer"><a href="http://www.paxzonebd.com" target="_blank">Powered by paxzone</a></div>
                     </div> 
                     <div class="col-md-6" >
-                         <table id="file_list" class="table table-striped table-bordered nowrap" style="width:100%">
+                         <table id="file_list" class="table table-striped table-bordered" cellspacing="0" cellpadding="0" data-page-length="5" data-order="[[ 1, &quot;dec&quot; ]]">
                               <thead>
                                    <tr>
                                         <th width="80">File Name</th>
-                                        <th width="20">Atcion</th>
+                                        <th width="10">Created At</th>
+                                        <th width="10">Atcion</th>
                                    </tr>
-                                   <tbody>
-                                   </tbody>
                               </thead>
+                              <tbody>
+                              </tbody>
                          </table>
                     </div>
                </div>
@@ -143,7 +145,7 @@
                <div id="live_data">
                     <h3 align="center">Claint Table</h3>
                     <div class="table-responsive"> 
-                         <table class="table table-bordered"  id="mytable" width="100%" cellspacing="0" cellpadding="0" data-page-length="25" data-order="[[ 0, &quot;asc&quot; ]]">
+                         <table class="table table-bordered nowrap"  id="mytable" width="100%" cellspacing="0" cellpadding="0" data-page-length="25" data-order="[[ 0, &quot;asc&quot; ]]">
                          </table>  
                     </div>
                </div>                       
@@ -157,29 +159,21 @@
      var fileName = [];
      var fName = '';
      var editor = $("#placeHolder").Editor();
-     function startUpload(){
-          $('#f1_upload_process').show();
-          $('#f1_upload_form').hide();
-          return true;
-     }
+     function fetch_list()  
+          {   
+               $.ajax({  
+                    url:"upload_file_handler.php",  
+                    method:"POST",
+                    success:function(data){  
+                         $('#file_list tbody').html(data); 
+                         $('#file_list').DataTable();
 
-     function stopUpload(success){
-          var result = '';
-          if (success == 0){
-          result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
+                    }  
+               });  
           }
-          else {
-          // result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
-          result = '<span class="emsg">'+success+'<\/span><br/><br/>';
-          }
-          $('#f1_upload_process').hide();
-          // document.getElementById('f1_upload_form').innerHTML = result + '<label>File: <input name="myfile" type="file" size="30" /><\/label><label><input type="submit" name="submitBtn" class="sbtn" value="Upload" /><\/label>';
-          $('#f1_upload_form').show(); 
-          $('#file_link').html(success);    
-          return true;   
-     }
+     
      $(document).ready(function(){ 
-          var table = $('#file_list').DataTable();
+          
           $('input[type="file"]').change(function(e){
                fName = e.target.files[0].name;
                fileName.push(fName);
@@ -204,16 +198,7 @@
                     }  
                });  
           }
-          function fetch_list()  
-          {   
-               $.ajax({  
-                    url:"upload_file_handler.php",  
-                    method:"POST",
-                    success:function(data){  
-                         $('#file_list tbody').html(data); 
-                    }  
-               });  
-          }
+          
           fetch_list();
 
           $('#dialog').dialog({
@@ -361,6 +346,23 @@
                     });  
                }  
           });  
+          $(document).on('click', '#del_list', function(){  
+               var id=$(this).data("id1");  
+               var path=$(this).data("id15");  
+               if(confirm("Are you sure you want to delete this file?"))  
+               {  
+                    $.ajax({  
+                         url:"delete_file.php",  
+                         method:"POST",  
+                         data:{id:id, path:path},  
+                         dataType:"text",  
+                         success:function(data){  
+                              alert(data);  
+                              fetch_list();  
+                         }  
+                    });  
+               }  
+          });  
           $(document).on('click', '#refresh', function(){  
                fetch_data();
           });  
@@ -411,9 +413,46 @@
                     return false;
                } 
           });
+          $(document).on('click', '#reset_btn', function(){   
+               var start_no = $('#st').val();  
+               var end_no = $('#ed').val();
+               //var file_data = $("#avatar").prop("files")[0];
+               if(t_name==''){
+                    alert("Select a database!")
+                    return false;
+               }   
+               if(start_no==''){
+                    alert("Please enter a start no!");
+                    return false; 
+               }
+               if(end_no==''){
+                    alert("Please enter a ending no!")
+                    return false; 
+               }  
+               if(end_no < start_no){
+                    alert("Ending No most be greater than or equal to start no!")
+                    return false; 
+               }  
+               if(confirm("Are you sure you want to RESET Status from "+start_no+" to "+end_no+"?"))  
+               {  
+                    $.ajax({  
+                         url:"reset_status.php",  
+                         method:"POST",  
+                         data:{t_name:t_name, start_no:start_no,end_no:end_no},  
+                         // data:{t_name:t_name, start_no:start_no,end_no:end_no,mail_text:mail_text,sub:sub, file_data:file_data},  
+                         dataType:"text",  
+                         success:function(data){  
+                              alert(data);  
+                              fetch_data();  
+                         }  
+                    });  
+               } 
+               else{
+                    return false;
+               } 
+          });
           $('#t_name').on('change', function() {
-                    t_name = this.value;
-                    // $('#mytable').html("");
+                    t_name = this.value;;
                     fetch_data();  
                });    
      });  
@@ -453,10 +492,26 @@
           }
           
      });
-     $('.file_row').click(function(){
-               var f_name = $(this).data("id12"); 
-               var f_url = $(this).data("id13"); 
-               $( "#dialog p").html(f_url);
-               $( '#dialog' ).dialog( 'open' );
-     });
+     function startUpload(){
+          $('#f1_upload_process').show();
+          $('#f1_upload_form').hide();
+          return true;
+     }
+
+     function stopUpload(success){
+          var result = '';
+          if (success == 0){
+          result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
+          }
+          else {
+          // result = '<span class="emsg">There was an error during file upload!<\/span><br/><br/>';
+          result = '<span class="emsg">'+success+'<\/span><br/><br/>';
+          }
+          $('#f1_upload_process').hide();
+          // document.getElementById('f1_upload_form').innerHTML = result + '<label>File: <input name="myfile" type="file" size="30" /><\/label><label><input type="submit" name="submitBtn" class="sbtn" value="Upload" /><\/label>';
+          $('#f1_upload_form').show(); 
+          $('#file_link').html(result); 
+          fetch_list(); 
+          return true;   
+     }
  </script>
