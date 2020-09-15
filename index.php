@@ -105,18 +105,8 @@
                          </div>
                          <div id="footer"><a href="http://www.paxzonebd.com" target="_blank">Powered by paxzone</a></div>
                     </div> 
-                    <div class="col-md-6" >
-                         <table id="file_list" class="table table-striped table-bordered" cellspacing="0" cellpadding="0" data-page-length="5" data-order="[[ 1, &quot;dec&quot; ]]">
-                              <thead>
-                                   <tr>
-                                        <th width="80">File Name</th>
-                                        <th width="10">Created At</th>
-                                        <th width="10">Atcion</th>
-                                   </tr>
-                              </thead>
-                              <tbody>
-                              </tbody>
-                         </table>
+                    <div class="col-md-6" id="file_list_div">
+                         
                     </div>
                </div>
                <div id="dialog">
@@ -165,7 +155,7 @@
                     url:"upload_file_handler.php",  
                     method:"POST",
                     success:function(data){  
-                         $('#file_list tbody').html(data); 
+                         $('#file_list_div').html(data); 
                          $('#file_list').DataTable();
 
                     }  
