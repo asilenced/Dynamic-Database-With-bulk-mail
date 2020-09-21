@@ -49,7 +49,6 @@
  else  
  {  
       $output .= '<tr>  
-                        <td ></td>  
                         <td colspan="3">Data not Found</td>  
                         <td ></td>  
                         <td ></td>  

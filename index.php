@@ -1,3 +1,19 @@
+<?php
+namespace Phppot;
+
+use \Phppot\Member;
+
+if (! empty($_SESSION["userId"])) {
+    require_once __DIR__ . './user_login_session/class/Member.php';
+    $member = new Member();
+    $memberResult = $member->getMemberById($_SESSION["userId"]);
+    if(!empty($memberResult[0]["display_name"])) {
+        $displayName = ucwords($memberResult[0]["display_name"]);
+    } else {
+        $displayName = $memberResult[0]["user_name"];
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">  
      <head>  
@@ -9,7 +25,7 @@
           <script  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
           <script src="Text-Editor/editor.js"></script>
           <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/datatables.min.js"></script> 
-          <title>Live Table Data Edit</title>  
+          <title><?php echo $displayName; ?></title>  
           <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
           <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"> 
@@ -127,15 +143,16 @@
                <div class="col-md-12">
                     <input type="submit" id="refresh" value="Refresh Table">  
                     <select class="browser-default custom-select float-right" id="t_name">
-                         <option value=0 disabled selected>Select database</option>
+                         <option value="0" disabled selected>Select database</option>
                          <option value="paxzone_email_data">Email Data</option>
                          <option value="paxzone_client_master">Full Data</option>
+                         <option value="ecofarms_wholesale">Wholse Client</option>
                     </select> 
                </div>
                <div id="live_data">
                     <h3 align="center">Claint Table</h3>
                     <div class="table-responsive"> 
-                         <table class="table table-bordered nowrap"  id="mytable" width="100%" cellspacing="0" cellpadding="0" data-page-length="25" data-order="[[ 0, &quot;asc&quot; ]]">
+                         <table class="table table-bordered"  id="mytable" width="100%" cellspacing="0" cellpadding="0" data-page-length="25" data-order="[[ 0, &quot;asc&quot; ]]">
                          </table>  
                     </div>
                </div>                       
@@ -249,6 +266,47 @@
                     url:"insert.php",  
                     method:"POST",  
                     data:{t_name:t_name, CompanyName:CompanyName, CompanyAddress:CompanyAddress, ContactPerson:ContactPerson, Designation:Designation, email:email, ITManager:ITManager, MobileNo:MobileNo, ContactNo:ContactNo, emailIT:emailIT, Zone:Zone, Remarks:Remarks},  
+                    dataType:"text",  
+                    success:function(data)  
+                    {  
+                         alert(data);  
+                         fetch_data();  
+                    }  
+               })
+               }   
+               else if(t_name=='ecofarms_wholesale'){
+                    // var sno = $('#Serial No').text();  
+                    var CompanyName = $('#CompanyName').text();  
+                    var CompanyAddress = $('#CompanyAddress').text();  
+                    var ContactPerson = $('#ContactPerson').text();  
+                    var MobileNo = $('#MobileNo').text();  
+                    var email = $('#EmailAddress').text();   
+                    var Zone = $('#Zone').text();  
+                    var Remarks = $('#Remarks').text();
+                    if(CompanyName == '')  
+                    {  
+                         alert("Enter Company Name");  
+                         return false;  
+                    }  
+                    if(CompanyAddress == '')  
+                    {  
+                         alert("Company Address can not be empty!");  
+                         return false;  
+                    }  
+                    if(ContactPerson == '')  
+                    {  
+                         alert("Contact person can not be empty!");  
+                         return false;  
+                    }  
+                    if(Zone == '')  
+                    {  
+                         alert("Zone can not be empty!");  
+                         return false;  
+                    }   
+                    $.ajax({  
+                    url:"insert.php",  
+                    method:"POST",  
+                    data:{t_name:t_name, CompanyName:CompanyName, CompanyAddress:CompanyAddress, ContactPerson:ContactPerson, email:email, MobileNo:MobileNo, Zone:Zone, Remarks:Remarks},  
                     dataType:"text",  
                     success:function(data)  
                     {  

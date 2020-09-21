@@ -10,7 +10,7 @@
  $output .= '  
       <thead>
           <tr>';  
- if(mysqli_num_rows($column_name) > 0 && mysqli_num_rows($result) > 0)  
+ if(mysqli_num_rows($column_name) > 0)  
  {  
       while($column = mysqli_fetch_array($column_name))  
       {  
@@ -25,8 +25,8 @@
       </tr>
       </thead>
       <tbody>';  
-  
-      while($row = mysqli_fetch_array($result))  
+  if(mysqli_num_rows($result) > 0){
+    while($row = mysqli_fetch_array($result))  
       {  $output .= 
           '<tr>';
           foreach($temp as $column){
@@ -38,25 +38,33 @@
           $output .= '
           <td><button type="button" name="delete_btn" data-id1="'.$row[0].'" class="btn btn-xs btn-danger btn_delete">x</button>&nbsp;&nbsp;<button type="button" name="delete_btn" data-id7="'.$row[0].'" class="btn btn-xs btn-success btn_edit"> ✓</button></td>  
                 </tr>';
-          
-      }
-      $output .='<tr>';  
-      foreach($temp as $column){
-          $output .= 
-          '<td id="'.$column.'" contenteditable></td>  
-          ';
-     }
-      $output .= '<td><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success">+</button></td>  
-           </tr>';  
+      } 
+  }
+      
  }  
  else  
  {  
-      $output .= '<tr>  
-                          <td colspan="4">Data not Found</td>  
-                     </tr>';  
- }  
+    $output .= '<tr>  
+                    <td>Table not found</td>  
+                </tr>';  
+ }
+    $output .='<tr>';  
+    foreach($temp as $column){
+        if($column == 'Serial No')
+        {
+            $output .= 
+        '<td id="'.$column.'"></td>';
+        }
+        else{
+            $output .= 
+        '<td id="'.$column.'" contenteditable></td>';
+        }
+        
+    }
+    $output .= '<td><button type="button" name="btn_add" id="btn_add" class="btn btn-xs btn-success">+</button></td>  
+           </tr>';   
   
- if($table=='paxzone_client_master'){
+ if($table !='paxzone_email_data'){
      $output .= "</tbody><script>$(document).ready(function() { var table = $('#mytable').DataTable({
          'scrollY': 500, 
          'scrollX': true, 
