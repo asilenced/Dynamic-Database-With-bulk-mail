@@ -10,7 +10,7 @@ function test_input($data) {
   return $data;
 }
 
-function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file)
+function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $acc)
     {
         $error = "i";
         $mail = new PHPMailer();
@@ -22,7 +22,10 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file)
         $mail->Port = 465;  
         $mail->Username = 'sales@paxzonebd.com';
         $mail->Password = '368836'; 
-        $mail->AddCC('salespaxzone@gmail.com');
+        if($acc){
+            $mail->AddCC($acc);
+        }
+        
         
         // $path = $_FILES['filename']['tmp_name'];
         // $mail->AddAttachment($path);
@@ -51,10 +54,10 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file)
         }
     }
 
-function sent_mail($to, $from, $name, $subj, $final_message1, $files){
+    function sent_mail($to, $from, $name, $subj, $final_message1, $files, $acc){
         $error = "i";
         if (filter_var($to, FILTER_VALIDATE_EMAIL)) {
-            $error=smtpmailer($to, $from, $name, $subj, $final_message1, $files);
+            $error=smtpmailer($to, $from, $name, $subj, $final_message1, $files, $acc);
         }
         return $error;
     }
@@ -62,6 +65,10 @@ function sent_mail($to, $from, $name, $subj, $final_message1, $files){
     $from = "sales@paxzonebd.com";
     $sub = "Paxzone Electronics";
     $file = array();
+    $acc = false;
+    if(!empty($_POST['acc'])){
+        $acc = $_POST['acc'];
+    }
     if(!empty($_POST['sub'])){
         $sub = $_POST['sub'];
     }
@@ -79,7 +86,7 @@ function sent_mail($to, $from, $name, $subj, $final_message1, $files){
             while($row = mysqli_fetch_assoc($result)){
                 $to = $row['EmailAddress'];
                 // $final_message1 = sprintf($crtm, $row["name"]);
-                $sm=sent_mail($to, $from, "Paxzone Electronics", $sub, $msg, $file);
+                $sm=sent_mail($to, $from, "Paxzone Electronics", $sub, $msg, $file, $acc);
                 $sts = "Failed";
                 if($sm == 'd'){
                     $sts = "Done";
@@ -88,7 +95,7 @@ function sent_mail($to, $from, $name, $subj, $final_message1, $files){
                 }
                 if(isset($row['EmailAddress_IT'])){
                     $to = $row['EmailAddress_IT'];
-                    $sm=sent_mail($to, $from, "Paxzone Electronics", $sub, $msg, $file);
+                    $sm=sent_mail($to, $from, "Paxzone Electronics", $sub, $msg, $file, $acc);
                     if($sm == 'd'){
                         $sts .= ", Done";
                     }else if($sm == 'i'){

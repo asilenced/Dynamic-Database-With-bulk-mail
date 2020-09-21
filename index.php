@@ -60,8 +60,7 @@ if (! empty($_SESSION["userId"])) {
                     </div>
                     <div class="row">
                          <div class="form-group col-md-6">
-
-                         <label for="input-b2" class="col-sm-4 col-form-label" id="attached_file_label">Attached file:</label>
+                              <label for="input-b2" class="col-sm-4 col-form-label" id="attached_file_label">Attached file:</label>
                               <div class="col-sm-8">
                               <textarea  id="file_names" class="form-control file" placeholder="Upload file to attached" readonly></textarea>
                               
@@ -76,9 +75,17 @@ if (! empty($_SESSION["userId"])) {
                               </div>
                          </div>
                     </div>
-
                     <div class="row">
-                         
+                         <div class="form-group col-md-6">
+                         </div>
+                         <div class="form-group col-md-6">
+                              <label for="sub" class="col-sm-4 col-form-label">Mail CC:</label>
+                              <div class="col-sm-8">
+                                   <input type="text" class="form-control" id="acc" placeholder="Enter mail CC">
+                              </div>
+                         </div>
+                    </div>
+                    <div class="row">
                          <div class="form-group col-sm-3">
                               <input type="button" class="btn btn-default col-sm-12" id="reset_btn"
                                              style="background-color: #56AA1C; color: white;" name="reset" value="Reset Status">
@@ -376,6 +383,45 @@ if (! empty($_SESSION["userId"])) {
                          }  
                     })
                } 
+               else if(t_name=='ecofarms_wholesale'){
+                    // var sno = $('#Serial No').text();  
+                    var CompanyName =  $(this).parents().siblings(".CompanyName").text(); 
+                    var CompanyAddress =  $(this).parents().siblings(".CompanyAddress").text(); 
+                    var ContactPerson = $(this).parents().siblings(".ContactPerson").text(); 
+                    var MobileNo =  $(this).parents().siblings(".MobileNo").text();   
+                    var Zone = $(this).parents().siblings(".Zone").text();
+                    if(CompanyName == '')  
+                    {  
+                         alert("Company Name can not be empty!");  
+                         return false;  
+                    }  
+                    if(CompanyAddress == '')  
+                    {  
+                         alert("Company Address can not be empty!");  
+                         return false;  
+                    }  
+                    if(ContactPerson == '')  
+                    {  
+                         alert("Contact person can not be empty!");  
+                         return false;  
+                    }  
+                    if(Zone == '')  
+                    {  
+                         alert("Zone can not be empty!");  
+                         return false;  
+                    }   
+                    $.ajax({  
+                         url:"edit.php",  
+                         method:"POST",  
+                         data:{t_name:t_name, id:id, CompanyName:CompanyName, CompanyAddress:CompanyAddress, ContactPerson:ContactPerson, email:email, MobileNo:MobileNo, Zone:Zone, Remarks:Remarks},  
+                         dataType:"text",  
+                         success:function(data)  
+                         {  
+                              alert(data);  
+                              fetch_data();  
+                         }  
+                    })
+               } 
           });  
           
           $(document).on('click', '.btn_delete', function(){  
@@ -418,7 +464,7 @@ if (! empty($_SESSION["userId"])) {
                var start_no = $('#st').val();  
                var end_no = $('#ed').val();
                var sub = $('#sub').val();
-               //var file_data = $("#avatar").prop("files")[0];
+               var cc = $('#acc').val();
                if(t_name==''){
                     alert("Select a database!")
                     return false;
@@ -448,7 +494,7 @@ if (! empty($_SESSION["userId"])) {
                     $.ajax({  
                          url:"method.php",  
                          method:"POST",  
-                         data:{t_name:t_name, start_no:start_no,end_no:end_no,mail_text:mail_text,sub:sub,fileName:fileName},  
+                         data:{t_name:t_name, start_no:start_no,end_no:end_no,mail_text:mail_text,sub:sub,fileName:fileName, acc:acc},  
                          // data:{t_name:t_name, start_no:start_no,end_no:end_no,mail_text:mail_text,sub:sub, file_data:file_data},  
                          dataType:"text",  
                          success:function(data){  

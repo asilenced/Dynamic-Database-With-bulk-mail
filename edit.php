@@ -24,6 +24,14 @@
      $Zone = $_POST["Zone"];
      $sql = "UPDATE `paxzone_client_master` SET `CompanyName`='".$cname."',`CompanyAddress`='".$cAddress."',`ContactPerson`='".$cp."',`Designation`='".$Designation."',`MobileNo`='".$MobileNo."',`EmailAddress`='".$email."',`ITManager`='".$ITManager."',`ContactNo`='".$ContactNo."',`EmailAddress_IT`='".$emailIT."',`Zone`='".$Zone."',`Remarks`='".$remarks."' WHERE `Serial No`='".$id."'"; 
  }
+ else if($_POST["t_name"]=='ecofarms_wholesale'){
+     $cname = $_POST["CompanyName"];  
+     $cAddress = $_POST["CompanyAddress"];  
+     $cp = $_POST["ContactPerson"]; 
+     $MobileNo = $_POST["MobileNo"];
+     $Zone = $_POST["Zone"];
+     $sql = "UPDATE `ecofarms_wholesale` SET `CompanyName`='".$cname."',`CompanyAddress`='".$cAddress."',`ContactPerson`='".$cp."',`MobileNo`='".$MobileNo."',`EmailAddress`='".$email."',`Zone`='".$Zone."',`Remarks`='".$remarks."' WHERE `Serial No`='".$id."'"; 
+ }
  if(mysqli_query($connect, $sql))  {  
       $msg = 'Data Updated';  
  }else{
