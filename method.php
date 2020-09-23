@@ -16,7 +16,6 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
         $mail = new PHPMailer();
         $mail->IsSMTP();
         $mail->SMTPAuth = true; 
- 
         $mail->SMTPSecure = 'ssl'; 
         $mail->Host = 'sg2plcpnl0221.prod.sin2.secureserver.net';
         $mail->Port = 465;  
@@ -25,8 +24,6 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
         if($acc){
             $mail->AddCC($acc);
         }
-        
-        
         // $path = $_FILES['filename']['tmp_name'];
         // $mail->AddAttachment($path);
         if(!empty($attached_file)){
@@ -61,6 +58,29 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
         }
         return $error;
     }
+
+    $sql = "SELECT * FROM `counter` WHERE `id`=(SELECT MAX(`id`) FROM `counter`)";
+    $result = mysqli_query($connect, $sql);
+    $counter_row = mysqli_fetch_row($result);
+    $d=date("d-M-Y ha", strtotime("now"));
+    $limite = '';
+    $counter = 0;
+    if($counter_row){
+        if(date("d-M-Y ha", strtotime($counter_row[1])) != $d || $counter_row[2]<=$counter_row[3])
+        {
+            $spl = "INSERT INTO `counter`(`slot`, `counter`, `limite`) VALUES ('".$d."',0,'".$limite."')";
+            mysqli_query($connect, $sql);
+        }
+        else{
+            $counter= $counter_row[2];
+        }
+    }
+    else
+    {
+        $spl = "INSERT INTO `counter`(`slot`, `counter`, `limite`) VALUES ('".$d."',0,'".$limite."')";
+        mysqli_query($connect, $sql);
+    }
+
     $ms = "Error!";
     $from = "sales@paxzonebd.com";
     $sub = "Paxzone Electronics";
@@ -90,6 +110,10 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
                 $sts = "Failed";
                 if($sm == 'd'){
                     $sts = "Done";
+                    $counter += 1;
+                    if($acc){
+                        $counter += 1; 
+                    }
                 }else if($sm == 'i'){
                     $sts = "Invalid";
                 }
@@ -98,11 +122,21 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
                     $sm=sent_mail($to, $from, "Paxzone Electronics", $sub, $msg, $file, $acc);
                     if($sm == 'd'){
                         $sts .= ", Done";
+                        $counter += 1;
+                        if($acc){
+                            $counter += 1; 
+                        }
+    
                     }else if($sm == 'i'){
                         $sts .= ", Invalid";
                     }else{
                         $sts .= ", Failed";
                     }
+                }
+                
+                if (!mysqli_query($connect, "UPDATE `counter` SET `counter`= ".$counter." WHERE `slot`= '".$d."'")) {
+                    echo "Error updating record: " . mysqli_error($connect);
+                    return;
                 }
                 $sql1 = "UPDATE `".$table."` SET `Status` = '".$sts."' WHERE `Serial No` = '".$row["Serial No"]."'";
                 if (mysqli_query($connect, $sql1)) {

@@ -41,8 +41,9 @@ if (! empty($_SESSION["userId"])) {
            padding: 3%;
       }
       </style> 
-      <body>  
+      <body> 
            <div class="container">
+               <div class="counter"><p></p></div>  
                <form class="p-5">
                     <div class="row">
                          <div class="form-group col-md-6">
@@ -167,6 +168,11 @@ if (! empty($_SESSION["userId"])) {
       </body>  
  </html>  
  <script>
+      var auto_refresh = setInterval(
+          function ()
+          {
+          $('.counter p').load('record_count.php');
+          }, 1000);
      var mail_text = '';
      var t_name = '';  
      var table = '';
