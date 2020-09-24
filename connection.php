@@ -1,9 +1,9 @@
 <?php
     date_default_timezone_set("Asia/Dhaka");
     $servername = "localhost";
-    $username = "Ecofarms";
-    $password = "CtiUG6GnLCejsA@";
-    $db = "EF_Applicant";
+    $username = "";
+    $password = "";
+    $db = "";
     
     // Create connection
     $connect = mysqli_connect($servername, $username, $password, $db);

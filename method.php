@@ -17,10 +17,10 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
         $mail->IsSMTP();
         $mail->SMTPAuth = true; 
         $mail->SMTPSecure = 'ssl'; 
-        $mail->Host = 'sg2plcpnl0221.prod.sin2.secureserver.net';
-        $mail->Port = 465;  
-        $mail->Username = 'sales@paxzonebd.com';
-        $mail->Password = 'paxzoneelectronics'; 
+        $mail->Host = '';
+        $mail->Port = ;  
+        $mail->Username = '';
+        $mail->Password = ''; 
         if($acc){
             $mail->AddCC($acc);
         }
@@ -32,10 +32,10 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
             }
         }
         $mail->IsHTML(true);
-        $mail->From='sales@paxzonebd.com';
+        $mail->From='';
         $mail->FromName=$from_name;
         $mail->Sender=$from;
-        $mail->AddReplyTo('sales@paxzonebd.com', $from_name);
+        $mail->AddReplyTo('', $from_name);
         $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->AddAddress($to);
@@ -82,8 +82,8 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
     }
 
     $ms = "Error!";
-    $from = "sales@paxzonebd.com";
-    $sub = "Paxzone Electronics";
+    $from = "";
+    $sub = "";
     $file = array();
     $acc = false;
     if(!empty($_POST['acc'])){
