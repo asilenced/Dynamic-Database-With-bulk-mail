@@ -20,7 +20,7 @@ function smtpmailer($to, $from, $from_name, $subject, $body, $attached_file, $ac
         $mail->Host = 'sg2plcpnl0221.prod.sin2.secureserver.net';
         $mail->Port = 465;  
         $mail->Username = 'sales@paxzonebd.com';
-        $mail->Password = '368836'; 
+        $mail->Password = 'paxzoneelectronics'; 
         if($acc){
             $mail->AddCC($acc);
         }
